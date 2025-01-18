@@ -86,7 +86,9 @@ pub fn openOutput(
     const scope = AudioUnit.Scope.input;
     const element = AudioUnit.Element.output;
 
-    try audio_unit.setCurrentDevice(device.data.id.raw, element);
+    if (!device.data.flags.default_output) {
+        try audio_unit.setCurrentDevice(device.data.id.raw, element);
+    }
 
     try audio_unit.setBasicDescription(
         scope,
