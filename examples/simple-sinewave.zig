@@ -70,8 +70,7 @@ fn dataCallback(
     _: u64,
 ) void {
     const state: *State = @alignCast(@ptrCast(state_any));
-    const data: []f32 = advice.Stream.getCallbackData(
-        false,
+    const data: []f32 = advice.Stream.getOutputCallbackData(
         f32,
         .interleaved,
         data_any,

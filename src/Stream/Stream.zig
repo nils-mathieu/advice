@@ -47,47 +47,43 @@ pub fn openInput(
     return Self{ .impl = try advice.backend.Stream.openInput(device, allocator, config) };
 }
 
-/// The return type of `convertCallbackData`.
-pub fn GetCallbackData(
-    comptime input: bool,
+/// Converts the provided data pointer to the correct type.
+///
+/// This is a convenience function to avoid making mistakes when converting the raw `*anyopaque`
+/// pointer into the correct type for output streams.
+pub fn getOutputCallbackData(
     comptime SampleFormat: type,
     comptime channel_format: advice.Device.AvailableConfigs.ChannelFormat,
-) type {
-    if (input) {
-        switch (channel_format) {
-            .interleaved => return []const SampleFormat,
-            .non_interleaved => return []const [*]const SampleFormat,
-        }
-    } else {
-        switch (channel_format) {
-            .interleaved => return []SampleFormat,
-            .non_interleaved => return []const [*]SampleFormat,
-        }
+    data: *anyopaque,
+    channel_count: u32,
+    frame_count: usize,
+) switch (channel_format) {
+    .interleaved => []SampleFormat,
+    .non_interleaved => []const [*]SampleFormat,
+} {
+    switch (channel_format) {
+        .interleaved => return @as([*]SampleFormat, @alignCast(@ptrCast(data)))[0 .. frame_count * channel_count],
+        .non_interleaved => return @as([*]const [*]SampleFormat, @alignCast(@ptrCast(data)))[0..channel_count],
     }
 }
 
 /// Converts the provided data pointer to the correct type.
 ///
 /// This is a convenience function to avoid making mistakes when converting the raw `*anyopaque`
-/// pointer into the correct type.
-pub fn getCallbackData(
-    comptime input: bool,
+/// pointer into the correct type for input streams.
+pub fn getInputCallbackData(
     comptime SampleFormat: type,
     comptime channel_format: advice.Device.AvailableConfigs.ChannelFormat,
     data: *anyopaque,
     channel_count: u32,
     frame_count: usize,
-) GetCallbackData(input, SampleFormat, channel_format) {
-    if (input) {
-        switch (channel_format) {
-            .interleaved => return @as([*]SampleFormat, @alignCast(@ptrCast(data)))[0 .. frame_count * channel_count],
-            .non_interleaved => return @as([*][*]SampleFormat, @alignCast(@ptrCast(data)))[0..channel_count],
-        }
-    } else {
-        switch (channel_format) {
-            .interleaved => return @as([*]SampleFormat, @alignCast(@ptrCast(data)))[0 .. frame_count * channel_count],
-            .non_interleaved => return @as([*][*]SampleFormat, @alignCast(@ptrCast(data)))[0..channel_count],
-        }
+) switch (channel_format) {
+    .interleaved => []const SampleFormat,
+    .non_interleaved => []const [*]const SampleFormat,
+} {
+    switch (channel_format) {
+        .interleaved => return @as([*]const SampleFormat, @alignCast(@ptrCast(data)))[0 .. frame_count * channel_count],
+        .non_interleaved => return @as([*]const [*]const SampleFormat, @alignCast(@ptrCast(data)))[0..channel_count],
     }
 }
 
