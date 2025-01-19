@@ -1,6 +1,8 @@
 const std = @import("std");
 const advice = @import("advice");
 
+pub const __advice_log_errors = true;
+
 pub fn main() !void {
     var gpa = std.heap.GeneralPurposeAllocator(.{}){};
     defer _ = gpa.deinit();
@@ -88,6 +90,7 @@ fn dataCallback(
     }
 }
 
-fn errorCallback(state: *anyopaque) void {
+fn errorCallback(state: *anyopaque, err: advice.Error) void {
     _ = state;
+    std.debug.print("stream error: {s}\n", .{@errorName(err)});
 }

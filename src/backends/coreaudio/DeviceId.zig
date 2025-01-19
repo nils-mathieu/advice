@@ -403,7 +403,7 @@ pub fn getAvailableConfigs(
             @intFromFloat(buffer_size_range.mMaximum),
         },
         .sample_rates = try sample_rates.toOwnedSlice(allocator),
-        .chanenl_format = .interleaved,
+        .channel_format = .interleaved,
     };
 }
 

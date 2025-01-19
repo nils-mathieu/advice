@@ -37,7 +37,7 @@ pub const DataCallback = *const fn (
 
 /// The signature of the function responsible for handling errors that occur during the
 /// stream's lifetime.
-pub const ErrorCallback = *const fn (state: *anyopaque) void;
+pub const ErrorCallback = *const fn (state: *anyopaque, err: advice.Error) void;
 
 /// The format that the stream should use.
 ///

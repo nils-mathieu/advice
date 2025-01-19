@@ -24,5 +24,6 @@ pub fn deinit(self: *Self, allocator: std.mem.Allocator) void {
     allocator.free(self.name);
     if (self.output_configs) |*c| c.deinit(allocator);
     if (self.input_configs) |*c| c.deinit(allocator);
+    self.data.deinit(allocator);
     self.* = undefined;
 }

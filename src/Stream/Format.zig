@@ -27,6 +27,22 @@ pub const Format = enum {
     /// The 64-bit signed integer format.
     i64,
 
+    /// A slice with all possible formats.
+    pub const all = [_]Format{
+        .f32,
+        .f64,
+        .u8,
+        .u16,
+        .u24,
+        .u32,
+        .u64,
+        .i8,
+        .i16,
+        .i24,
+        .i32,
+        .i64,
+    };
+
     /// Returns the size of a sample encoded in this format, in bytes.
     pub fn sizeInBytes(self: Format) u32 {
         switch (self) {

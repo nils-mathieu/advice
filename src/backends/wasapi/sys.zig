@@ -1,0 +1,10 @@
+pub usingnamespace @import("win32").system.com;
+pub usingnamespace @import("win32").system.com.structured_storage;
+pub usingnamespace @import("win32").media.audio;
+pub usingnamespace @import("win32").media.kernel_streaming;
+pub usingnamespace @import("win32").media.multimedia;
+pub usingnamespace @import("win32").foundation;
+pub usingnamespace @import("win32").ui.shell.properties_system;
+pub usingnamespace @import("win32").devices.properties;
+pub usingnamespace @import("win32").system.ole;
+pub usingnamespace @import("win32").system.threading;

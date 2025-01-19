@@ -19,6 +19,11 @@ pub const DeviceData = struct {
         /// Whether the device is the default output device.
         default_output: bool = false,
     },
+
+    pub inline fn deinit(self: *DeviceData, allocator: Allocator) void {
+        _ = allocator;
+        _ = self;
+    }
 };
 
 /// Returns the default (and only) host for the CoreAudio platform.

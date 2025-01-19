@@ -23,7 +23,7 @@ buffer_size: ?[2]u32,
 formats: Formats,
 
 /// The channel format used by the device.
-chanenl_format: ChannelFormat,
+channel_format: ChannelFormat,
 
 /// The list of available formats for a device.
 pub const Formats = packed struct {
@@ -85,6 +85,24 @@ pub const Formats = packed struct {
             .i24 => return self.i24,
             .i32 => return self.i32,
             .i64 => return self.i64,
+        }
+    }
+
+    /// Inserts a format into the `Formats` instance.
+    pub fn insert(self: *Formats, other: advice.Stream.Format) void {
+        switch (other) {
+            .f32 => self.f32 = true,
+            .f64 => self.f64 = true,
+            .u8 => self.u8 = true,
+            .u16 => self.u16 = true,
+            .u24 => self.u24 = true,
+            .u32 => self.u32 = true,
+            .u64 => self.u64 = true,
+            .i8 => self.i8 = true,
+            .i16 => self.i16 = true,
+            .i24 => self.i24 = true,
+            .i32 => self.i32 = true,
+            .i64 => self.i64 = true,
         }
     }
 

@@ -12,6 +12,7 @@ const builtin = @import("builtin");
 /// be gated behind the appropriate checks.
 pub const backend = switch (builtin.os.tag) {
     .macos, .ios => @import("backends/coreaudio/root.zig"),
+    .windows => @import("backends/wasapi/root.zig"),
     else => unreachable,
 };
 
@@ -22,7 +23,7 @@ pub const Error = error{
     /// The system ran out of memory.
     OutOfMemory,
     /// Returned when the requested configuration is not supported by the device.
-    InvalidConfig,
+    UnsupportedConfig,
 };
 
 pub const Host = @import("Host.zig");

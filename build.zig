@@ -18,10 +18,13 @@ pub fn build(b: *std.Build) void {
     b.modules.put("advice", advice_obj.root_module) catch @panic("OOM");
 
     switch (target.result.os.tag) {
-        .macos => {
+        .macos, .ios => {
             advice_obj.linkFramework("CoreAudio");
             advice_obj.linkFramework("CoreFoundation");
             advice_obj.linkFramework("AudioToolbox");
+        },
+        .windows => {
+            advice_obj.root_module.addImport("win32", b.lazyDependency("win32", .{}).?.module("zigwin32"));
         },
         else => {},
     }

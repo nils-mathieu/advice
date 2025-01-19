@@ -40,7 +40,7 @@ pub fn openOutput(
 /// This function returns the open stream. It must be closed with `Stream.close` when it is no
 /// longer needed.
 pub fn openInput(
-    device: advice.Device,
+    device: *const advice.Device,
     allocator: std.mem.Allocator,
     config: Config,
 ) advice.Error!Self {
@@ -94,10 +94,10 @@ pub fn close(self: *Self, allocator: std.mem.Allocator) void {
 
 /// Starts the stream.
 pub fn play(self: *Self) advice.Error!void {
-    try self.impl.play();
+    return self.impl.play();
 }
 
 /// Pauses the stream, potentially saving energy and CPU usage while it's not needed.
 pub fn pause(self: *Self) advice.Error!void {
-    try self.impl.pause();
+    return self.impl.pause();
 }
