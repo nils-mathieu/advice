@@ -128,7 +128,7 @@ pub fn setBasicDescription(self: *Self, scope: Scope, element: Element, desc: Ba
     );
     switch (status) {
         sys.noErr => {},
-        sys.kAudioFormatUnsupportedDataFormatError => return error.InvalidConfig,
+        sys.kAudioFormatUnsupportedDataFormatError => return error.UnsupportedConfig,
         else => {
             if (builtin.mode == .Debug)
                 std.log.warn("advice: Failed to set basic description: {d}", .{status});
